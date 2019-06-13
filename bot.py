@@ -3,7 +3,7 @@ import time
 
 driver = webdriver.Chrome("/Users/ModouNiang/Documents/Python Programs/Web Bot/chromedriver")
 
-#CUSTOMER CLASS TO STORE SHIPPING INFORMATION
+#CUSTOMER CLASS TO STORE SHIPPING AND CONTACT INFORMATION
 class Customer:
     def __init__(self,size):
         self.size = size
@@ -29,6 +29,7 @@ class Customer:
     def getNumber(self):
         self.number = input("Enter Phone Number: ")
 
+#Class to store User's Credit Card Information
 class CreditCard:
     def __init__(self):
          self.name = "Card"

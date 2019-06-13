@@ -1,47 +1,55 @@
 from selenium import webdriver
 import time
 
-driver = webdriver.Chrome("/Users/ModouNiang/Documents/Python Programs/Web Bot/chromedriver")
 
-#CUSTOMER CLASS TO STORE SHIPPING AND CONTACT INFORMATION
+#CUSTOMER CLASS TO STORE SHIPPING INFORMATION
 class Customer:
     def __init__(self,size):
         self.size = size
 
     def getFirstName(self):
         self.first_name = input("Enter First Name: ")
+        return self.first_name
     
     def getLastName(self):
         self.last_name = input("Enter last Name: ")
+        return self.last_name
 
     def getAddress(self):
         self.address = input("Enter Street Adress: ")
+        return self.address
     
     def getCity(self):
         self.city = input("Enter City: ")
+        return self.city
         
     def getState(self):
         self.state = "TN"#input("Enter State Abrreviation(2 letters): ").upper()
+        return self.state
 
     def getEmail(self):
         self.email = input("Enter Email: ")
+        return self.email
     
     def getNumber(self):
         self.number = input("Enter Phone Number: ")
+        return self.number
 
-#Class to store User's Credit Card Information
-class CreditCard:
+class Card:
     def __init__(self):
          self.name = "Card"
 
     def getCard(self):
         self.card = input("Enter Card Number(16 Digits): ")
+        return self.card
 
     def getExp(self):
         self.expdate = input("Enter Card Exp Date(MM/YY): ")
+        return self.expdate
 
     def getCVV(self):
         self.cvv = input("Enter CVV Number: ")
+        return self.cvv
 
 #XPATHS FOR PAYMENT INFORMATION
 paymentXpath = {"Card Number": "//*[@id=\"creditCardNumber\"]",
@@ -50,7 +58,7 @@ paymentXpath = {"Card Number": "//*[@id=\"creditCardNumber\"]",
 
 #XPATHS FOR SHIPPING INFORMATION
 shippingXpath = {
-"firstName": "//*[@id=\"firstName\"]",
+"firstName":"//*[@id=\"firstName\"]",
 "lastName": "//*[@id=\"lastName\"]",
 "address": "//*[@id=\"address1\"]",
 "city": "//*[@id=\"city\"]",
@@ -77,7 +85,7 @@ shoeXpath = {
 navigation = {
 "AddCart": "//*[@id=\"buyTools\"]/div[2]/button[1]",
 "Checkout": "//*[@id=\"PDP\"]/div/div[4]/div/div/div/div/div/div/div/div/div/div[3]/button[2]",
-"Checkout2": "//*[@id=\"Cart\"]/div[2]/div[2]/aside/div[7]/div/button[1]",
+"Checkout2": "//*[@id=\"react-root\"]/div/div[7]/div/button",
 "saveContinue": "//*[@id=\"shipping\"]/div/div/div/form/div/div/div/div[2]/button[2]",
 "continuePayment": "//*[@id=\"shipping\"]/div/div/div/div[4]/div/button",
 "placeOrder":"//*[@id=\"placeorderAB3576\"]/div/div[1]/button"
@@ -159,8 +167,10 @@ def checkoutButton():
     print("Pressed Checkout Button")
 
     #Guest Checkout
-    guestCheckout = driver.find_elements_by_xpath("//*[@id=\"qa-guest-checkout-mobile\"]")[0]
+    guestCheckout = driver.find_elements_by_xpath("//*[@id=\"react-root\"]/div/div[4]/div/div/button[1]")[0]
     guestCheckout.click()
+
+    time.sleep(1)
 
 #Add Shipping Information
 def shippingInfo():
@@ -185,9 +195,9 @@ def shippingInfo():
 
 #ADD PAYMENT INFORMATION
 def cardInfo():
-    cardPath = driver.find_elements_by_xpath()[0].send_keys()
-    expPath = driver.find_elements_by_xpath()[0].send_keys()
-    cvvPath = driver.find_elements_by_xpath()[0].send_keys()
+    cardPath = driver.find_elements_by_xpath()[0].send_keys(cardNum)
+    expPath = driver.find_elements_by_xpath()[0].send_keys(cardDate)
+    cvvPath = driver.find_elements_by_xpath()[0].send_keys(cardCVV)
 
 def navigatePage():
     #Checkout
@@ -206,20 +216,23 @@ def navigatePage():
 
 
 def main():
+    global driver
+    
     print("Welcome to NIKE VaporMax BOT")
     print("====================================================")
-    retriveShippingInfo()
+    retrieveShippingInfo()
     retrieveCardInfo()
+    driver = webdriver.Chrome("/Users/ModouNiang/Documents/Python Programs/Nike-Bot/chromedriver")
     driver.get("https://www.nike.com/t/air-vapormax-plus-mens-shoe-w4xgr4/924453-100")
     
 
     navigatePage()
 
     orderPath = driver.find_elements_by_xpath(navigation["placeOrder"])[0].click()
-    
-    print("====================================================")
+
     print("THANK YOU! \n Your Order has Been Placed!")
 
 main()
 
 #MADE WITH LOVE BY MODOU NIANG
+

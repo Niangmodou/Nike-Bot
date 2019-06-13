@@ -215,7 +215,8 @@ def main():
     navigatePage()
 
     orderPath = driver.find_elements_by_xpath(navigation["placeOrder"])[0].click()
-
+    
+    print("====================================================")
     print("THANK YOU! \n Your Order has Been Placed!")
 
 main()
